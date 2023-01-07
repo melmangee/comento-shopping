@@ -1,4 +1,4 @@
-export const mockTheme1Produdcts = [
+export const mockTheme1Products = [
     {
       id: 1,
       name: "비숑 블랙 머그잔",
@@ -25,7 +25,7 @@ export const mockTheme1Produdcts = [
     },
   ];
   
-  export const mockTheme2Produdcts = [
+  export const mockTheme2Products = [
     {
       id: 7,
       name: "쏘쿨 냉감 이불",
