@@ -3,13 +3,14 @@ import ThemeButton from "../components/ThemaButton";
 import ProductCard from "../components/ProductCard";
 import styled from "styled-components";
 import {mockTheme1Products,mockTheme2Products}from "../data/mockData"
-import { useEffect, useInsertionEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 const Home = ()=> {
     //다시 렌더링(UI그리는 거)되는 조건 값(state)
     const [Products, setProducts] = useState();
-
+    const navigate = useNavigate();
     // 조건에 의해서 실행되는 함수
     useEffect(() => {   
         setTimeout(() => {
@@ -55,6 +56,7 @@ const Home = ()=> {
             {Products ?(
             Products.map((Product) =>( 
                 <ProductCard
+                onClick={() => navigate(`Product/${Product.id}`)}
                 key={Product.id}
                 name={Product.name} 
                 description={Product.description}
