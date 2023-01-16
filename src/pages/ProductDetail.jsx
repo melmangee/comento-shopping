@@ -8,21 +8,76 @@ const ProductDetail = () => {
   let { productId } = useParams();
   const [product, setProduct] = useState();
 
+
   useEffect(() => {
-    const result = getProductDetail(productId);
-    setProduct(result);
+    const response = getProductDetail(productId);
+    setProduct(response);
   }, []);
 
   return (
-    <ProductDetailStyled>
+    <Container>
       <Navigation />
-      {/* TODO: 삼항연산자 라는 단어로 찾아보시면 됩니다!! */}
-      {/* {조건 ? true : false} */}
-      {/* {조건 && true} */}
-      {/* {조건1 && 조건2 && true} */}
-    </ProductDetailStyled>
+      {product && (
+        <main>
+          <MainImage
+            style={{
+              backgroundImage: `url(${product.thumbnail})`,
+            }}
+          />
+          <ProductName>{product.name}</ProductName>
+          <ProductDescription>{product.price}원</ProductDescription>
+
+          <MenuTabs>
+            <MenuTab>상품 설명</MenuTab>
+            <MenuTab>상품 후기</MenuTab>
+          </MenuTabs>
+
+          <ProductDetailImage src={product.mainImage} alt="사진 설명" />
+        </main>
+      )}
+    </Container>
   );
 };
 
-const ProductDetailStyled = styled.div``;
 export default ProductDetail;
+
+const Container = styled.div``;
+const MainImage = styled.div`
+  width: 100%;
+  height: 420px;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 24px;
+`;
+
+const ProductName = styled.div`
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 26px;
+  letter-spacing: -0.01em;
+  padding-bottom: 8px;
+`;
+
+const ProductDescription = styled.div`
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 21px;
+  letter-spacing: -0.01em;
+  color: rgba(0, 0, 0, 0.86);
+  padding-bottom: 24px;
+`;
+
+const MenuTabs = styled.div`
+  display: flex;
+`;
+const MenuTab = styled.div`
+  flex: 1;
+  padding: 14px;
+  border: solid 1px #eeeeee;
+  text-align: center;
+  background-color: ${(props) => props.active && "#eeeeee"};
+`;
+
+const ProductDetailImage = styled.img`
+  width: 100%;
+`;
