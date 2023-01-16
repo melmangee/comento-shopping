@@ -2,17 +2,23 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Navigation from "../components/Navigation";
-import { getProductDetail } from "../data/mockData";
+import Review from "../components/Review";
+import { getProductDetail, mockReviews } from "../data/mockData";
 const ProductDetail = () => {
   // URL에서 paramter 변수(productId) 받아오는 로직
   let { productId } = useParams();
   const [product, setProduct] = useState();
+  const [activeMenuTab, setActiveMenuTab] = useState("description");
 
 
   useEffect(() => {
     const response = getProductDetail(productId);
     setProduct(response);
   }, []);
+
+  const onClickMenuTab = (menuTabName) => {
+    setActiveMenuTab(menuTabName);
+  };
 
   return (
     <Container>
@@ -28,11 +34,37 @@ const ProductDetail = () => {
           <ProductDescription>{product.price}원</ProductDescription>
 
           <MenuTabs>
-            <MenuTab>상품 설명</MenuTab>
-            <MenuTab>상품 후기</MenuTab>
+            <MenuTab
+              active={activeMenuTab === "description"}
+              onClick={() => onClickMenuTab("description")}
+            >
+              상품 설명
+            </MenuTab>
+            <MenuTab
+              active={activeMenuTab === "review"}
+              onClick={() => onClickMenuTab("review")}
+            >
+              상품 후기
+            </MenuTab>
           </MenuTabs>
+          {activeMenuTab === "description" && (
+            <ProductDetailImage src={product.mainImage} alt="사진 설명" />
+          )}
 
-          <ProductDetailImage src={product.mainImage} alt="사진 설명" />
+          {activeMenuTab === "review" && (
+            <div>
+              {mockReviews.map((review) => (
+                <Review
+                  key={review.id}
+                  profileImage={review.profileImage}
+                  username={review.username}
+                  score={review.score}
+                  createdDate={review.createdDate}
+                  reviewText={review.reviewText}
+                />
+              ))}
+            </div>
+          )}
         </main>
       )}
     </Container>
